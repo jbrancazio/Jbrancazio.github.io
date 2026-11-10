@@ -13,18 +13,17 @@ const recentPosts = (await getPostsNewestFirst()).slice(0, 3);
 
 <Base>
   <section class="hero">
-    <p class="eyebrow">{site.title}</p>
     <h1>{site.author}</h1>
     <p class="lede">{site.tagline}</p>
     <p>
-      I started as a barback and a barista. Over ten years in coffee and hospitality I ran a store,
-      then a region, and I kept reaching for data to do it. My first real data project was a staffing
-      model built from drink-by-drink sales. I did not know what to call it at the time.
+      I spent ten years in coffee and hospitality, from barback to running a region, and I kept
+      reaching for data to do it. My first real data project was a staffing model built from
+      drink-by-drink sales. I did not know what to call it at the time.
     </p>
     <p>
       A data science bootcamp made it official. Today I lead the BI team at{' '}
-      {currentEmployer.company}, where most of my job is building the systems that make data
-      requests clear, prioritized, and delivered well.
+      {currentEmployer.company}. The work is still hospitality: give people what they need to be
+      successful, and help them make decisions so their lives are easier.
     </p>
     <p class="cta">
       <a href="/about/">More about me</a>
