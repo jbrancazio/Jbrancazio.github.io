@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  // 'summary' for the home page; 'full' renders the write-up on the Projects page.
+  variant?: 'summary' | 'full';
+}
+
+const { project, variant = 'summary' } = Astro.props;
+const { title, summary, years, stack, link } = project.data;
+const { Content } = variant === 'full' ? await render(project) : { Content: null };
+---
+
+<article id={project.id}>
+  <p class="eyebrow">{years}</p>
+  <h3>
+    {variant === 'summary' ? <a href={`/projects/#${project.id}`}>{title}</a> : title}
+  </h3>
+  {variant === 'summary' ? <p class="muted">{summary}</p> : <div class="body"><Content /></div>}
+  <ul class="tags" aria-label="Tools">
+    {stack.map((tool) => <li>{tool}</li>)}
+  </ul>
+  {link && <p><a href={link}>View the code →</a></p>}
+</article>
+
+<style>
+  article {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  article:last-child {
+    border-bottom: 0;
+  }
+  h3 {
+    margin-top: 0;
+  }
+  h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  h3 a:hover {
+    color: var(--accent);
+  }
+  p.muted {
+    margin: 0.25rem 0 0;
+  }
+  .body :global(p:first-child) {
+    margin-top: 0.5rem;
+  }
+</style>

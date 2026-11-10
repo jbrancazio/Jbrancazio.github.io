@@ -1,0 +1,197 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site';
+import { resume } from '../data/resume';
+
+const currentTitle = resume.experience[0].roles[0].title;
+const linkedinLabel = site.links.linkedin.replace(/^https:\/\/(www\.)?/, '').replace(/\/$/, '');
+const githubLabel = site.links.github.replace(/^https:\/\//, '');
+---
+
+<Base title="Resume" description={`Resume of ${site.author}, ${currentTitle}.`}>
+  <header class="top">
+    <div>
+      <h1>{site.author}</h1>
+      <p class="headline">{currentTitle} · {resume.focus}</p>
+      <p class="muted contact">
+        {site.location} · <a href={site.links.linkedin}>{linkedinLabel}</a> ·{' '}
+        <a href={site.links.github}>{githubLabel}</a>
+      </p>
+    </div>
+    <button class="no-print" type="button" onclick="window.print()">Save as PDF</button>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    {resume.summary.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <dl class="skills">
+      {
+        Object.entries(resume.skills).map(([group, items]) => (
+          <div>
+            <dt>{group}</dt>
+            <dd>{items.join(' · ')}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    {
+      resume.experience.map((employer) => (
+        <div class="employer">
+          <h3>{employer.company}</h3>
+          {employer.roles.map((role) => (
+            <div class="role">
+              <div class="role-head">
+                <strong>{role.title}</strong>
+                <span class="muted">{role.dates}</span>
+              </div>
+              <p>{role.summary}</p>
+              {role.highlights && (
+                <ul>
+                  {role.highlights.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      ))
+    }
+
+    <div class="employer">
+      <h3>Coffee &amp; hospitality, earlier roles</h3>
+      <ul class="earlier">
+        {
+          resume.earlier.map((role) => (
+            <li>
+              <span>
+                <strong>{role.title}</strong>, {role.company}
+                {role.note && <span class="muted">. {role.note}</span>}
+              </span>
+              <span class="muted">{role.dates}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <ul class="earlier">
+      {
+        resume.education.map((e) => (
+          <li>
+            <span>
+              <strong>{e.school}</strong>, {e.credential}
+            </span>
+            <span class="muted">{e.years}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .headline {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin: 0;
+  }
+  .contact {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+  }
+  button {
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button:hover {
+    background: var(--surface);
+  }
+  h2 {
+    font-size: 1.3rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.35rem;
+    margin-top: 2.25rem;
+  }
+  .skills {
+    margin: 0;
+  }
+  .skills div {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    padding: 0.2rem 0;
+  }
+  dt {
+    font-weight: 600;
+  }
+  dd {
+    margin: 0;
+  }
+  .employer h3 {
+    margin-top: 1.5rem;
+  }
+  .role {
+    margin-top: 1rem;
+  }
+  .role-head,
+  .earlier li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .role-head span,
+  .earlier li > span:last-child {
+    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+  .role p {
+    margin: 0.25rem 0;
+  }
+  .role ul {
+    margin: 0.25rem 0 0;
+    padding-left: 1.2rem;
+  }
+  .earlier {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+  }
+  .earlier li {
+    padding: 0.3rem 0;
+  }
+  @media print {
+    h2 {
+      margin-top: 1.2rem;
+    }
+    .role,
+    .earlier li {
+      break-inside: avoid;
+    }
+  }
+</style>

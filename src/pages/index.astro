@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostList from '../components/PostList.astro';
+import { site } from '../site';
+import { resume } from '../data/resume';
+import { getPostsNewestFirst, getProjectsInOrder } from '../lib/content';
+
+const featured = (await getProjectsInOrder()).filter((p) => p.data.featured);
+const currentEmployer = resume.experience[0];
+const recentPosts = (await getPostsNewestFirst()).slice(0, 3);
+---
+
+<Base>
+  <section class="hero">
+    <p class="eyebrow">{site.title}</p>
+    <h1>{site.author}</h1>
+    <p class="lede">{site.tagline}</p>
+    <p>
+      I started as a barback and a barista. Over ten years in coffee and hospitality I ran a store,
+      then a region, and I kept reaching for data to do it. My first real data project was a staffing
+      model built from drink-by-drink sales. I did not know what to call it at the time.
+    </p>
+    <p>
+      A data science bootcamp made it official. Today I lead the BI team at{' '}
+      {currentEmployer.company}, where most of my job is building the systems that make data
+      requests clear, prioritized, and delivered well.
+    </p>
+    <p class="cta">
+      <a href="/about/">More about me</a>
+      <a href="/resume/">Read my resume</a>
+      <a href={site.links.linkedin}>Connect on LinkedIn</a>
+    </p>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Projects</h2>
+      <a href="/projects/">All projects →</a>
+    </div>
+    {featured.map((project) => <ProjectCard project={project} />)}
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Writing</h2>
+      <a href="/writing/">All posts →</a>
+    </div>
+    <PostList posts={recentPosts} />
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: 1rem;
+  }
+  .lede {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-weight: 600;
+  }
+</style>
