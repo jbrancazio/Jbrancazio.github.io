@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjectsInOrder } from '../lib/content';
+
+const projects = await getProjectsInOrder();
+const current = projects.filter((p) => p.data.era === 'current');
+const earlier = projects.filter((p) => p.data.era === 'earlier');
+---
+
+<Base title="Projects" description="Personal data and automation projects by Joshua Brancazio.">
+  <h1>Projects</h1>
+  <p class="muted">
+    Things I build on my own time. Most are small tools that turn messy data into a decision. They
+    run on my own hardware and I build them with Claude Code. None of them are production software,
+    but they hold up.
+  </p>
+
+  <h2>Current</h2>
+  {current.map((project) => <ProjectCard project={project} variant="full" />)}
+
+  <h2>Earlier work</h2>
+  <p class="muted">
+    From coffee, where I was doing data work before I knew what to call it, and from my bootcamp.
+  </p>
+  {earlier.map((project) => <ProjectCard project={project} variant="full" />)}
+</Base>

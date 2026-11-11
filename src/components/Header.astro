@@ -1,0 +1,68 @@
+---
+import { site } from '../site';
+
+const nav = [
+  { href: '/about/', label: 'About' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/resume/', label: 'Resume' },
+  { href: '/writing/', label: 'Writing' },
+];
+
+const path = Astro.url.pathname;
+---
+
+<header class="no-print">
+  <nav aria-label="Main">
+    <a class="name" href="/">{site.author}</a>
+    <ul>
+      {
+        nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  header {
+    border-bottom: 1px solid var(--rule);
+  }
+  nav {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 1rem var(--space);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  ul {
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  ul a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  ul a:hover,
+  ul a[aria-current='page'] {
+    color: var(--accent);
+  }
+</style>

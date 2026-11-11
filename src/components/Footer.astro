@@ -1,0 +1,34 @@
+---
+import { site } from '../site';
+---
+
+<footer class="no-print">
+  <div>
+    <span>© {new Date().getFullYear()} {site.author}</span>
+    <span class="links">
+      <a href={site.links.linkedin} rel="me">LinkedIn</a>
+      <a href={site.links.github} rel="me">GitHub</a>
+    </span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  div {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 1.5rem var(--space);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .links {
+    display: flex;
+    gap: 1.25rem;
+  }
+</style>
